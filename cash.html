@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cash Flow Analysis | FinanceAI Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 1rem;
+            padding: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            opacity: 0.9;
+        }
+
+        .cash-flow-components {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .component-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .component-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .component-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .component-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .component-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 1rem 0;
+        }
+
+        .component-change {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .positive {
+            color: #10b981;
+        }
+
+        .negative {
+            color: #ef4444;
+        }
+
+        .chart-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-header {
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .chart {
+            height: 300px;
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .bar-group {
+            display: inline-flex;
+            gap: 1rem;
+            position: absolute;
+            bottom: 0;
+            transition: all 0.3s ease;
+        }
+
+        .bar {
+            width: 30px;
+            background: #3b82f6;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+            transition: height 1s ease;
+        }
+
+        .bar.operating { background: #3b82f6; }
+        .bar.investing { background: #10b981; }
+        .bar.financing { background: #f59e0b; }
+
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.875rem;
+            color: #64748b;
+            white-space: nowrap;
+        }
+
+        .legend {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .ratio-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .ratio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .ratio-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .ratio-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .ratio-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 0.5rem 0;
+        }
+
+        .ratio-label {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .chart {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanceAI Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Cash Flow Analysis</h1>
+                <p>A comprehensive analysis of your company's cash movements through operating, investing, and financing activities. Understand your liquidity position and cash management efficiency.</p>
+            </div>
+        </section>
+
+        <div class="cash-flow-components">
+            <div class="component-card">
+                <div class="component-header">
+                    <div class="component-icon">
+                        <i class="fas fa-cash-register"></i>
+                    </div>
+                    <h3 class="component-title">Operating Cash Flow</h3>
+                </div>
+                <div class="component-value">$1,245,000</div>
+                <div class="component-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>12.5% vs last period</span>
+                </div>
+            </div>
+
+            <div class="component-card">
+                <div class="component-header">
+                    <div class="component-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="component-title">Investing Cash Flow</h3>
+                </div>
+                <div class="component-value">-$450,000</div>
+                <div class="component-change negative">
+                    <i class="fas fa-arrow-down"></i>
+                    <span>8.3% vs last period</span>
+                </div>
+            </div>
+
+            <div class="component-card">
+                <div class="component-header">
+                    <div class="component-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3 class="component-title">Financing Cash Flow</h3>
+                </div>
+                <div class="component-value">-$325,000</div>
+                <div class="component-change positive">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>5.2% vs last period</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ratio-section">
+            <h2 class="chart-title">Key Cash Flow Ratios</h2>
+            <div class="ratio-grid">
+                <div class="ratio-card">
+                    <div class="ratio-value">1.45</div>
+                    <div class="ratio-label">Operating Cash Flow Ratio</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="ratio-value">0.85</div>
+                    <div class="ratio-label">Cash Flow Coverage Ratio</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="ratio-value">1.28</div>
+                    <div class="ratio-label">Cash Flow to Debt Ratio</div>
+                </div>
+                <div class="ratio-card">
+                    <div class="ratio-value">0.92</div>
+                    <div class="ratio-label">Cash Reinvestment Ratio</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="chart-header">
+                <h2 class="chart-title">Cash Flow Trends</h2>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #3b82f6;"></div>
+                        <span>Operating</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #10b981;"></div>
+                        <span>Investing</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: #f59e0b;"></div>
+                        <span>Financing</span>
+                    </div>
+                </div>
+            </div>
+            <div class="chart" id="cashFlowChart"></div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sample data for the chart
+            const cashFlowData = [
+                { month: 'Jan', operating: 80, investing: -30, financing: -20 },
+                { month: 'Feb', operating: 85, investing: -35, financing: -25 },
+                { month: 'Mar', operating: 90, investing: -40, financing: -30 },
+                { month: 'Apr', operating: 88, investing: -38, financing: -28 },
+                { month: 'May', operating: 95, investing: -42, financing: -32 },
+                { month: 'Jun', operating: 100, investing: -45, financing: -35 }
+            ];
+
+            const chart = document.getElementById('cashFlowChart');
+            const maxValue = Math.max(...cashFlowData.map(d => Math.max(
+                Math.abs(d.operating),
+                Math.abs(d.investing),
+                Math.abs(d.financing)
+            )));
+
+            cashFlowData.forEach((data, index) => {
+                const barGroup = document.createElement('div');
+                barGroup.className = 'bar-group';
+                barGroup.style.left = `${index * 120 + 40}px`;
+
+                // Operating cash flow bar
+                const operatingBar = createBar(data.operating, maxValue, 'operating', data.month);
+                barGroup.appendChild(operatingBar);
+
+                // Investing cash flow bar
+                const investingBar = createBar(Math.abs(data.investing), maxValue, 'investing');
+                barGroup.appendChild(investingBar);
+
+                // Financing cash flow bar
+                const financingBar = createBar(Math.abs(data.financing), maxValue, 'financing');
+                barGroup.appendChild(financingBar);
+
+                chart.appendChild(barGroup);
+            });
+
+            // Animate component values
+            const componentValues = document.querySelectorAll('.component-value');
+            componentValues.forEach(value => {
+                value.style.opacity = '0';
+                setTimeout(() => {
+                    value.style.transition = 'opacity 0.5s ease';
+                    value.style.opacity = '1';
+                }, 500);
+            });
+        });
+
+        function createBar(value, maxValue, type, month = null) {
+            const bar = document.createElement('div');
+            bar.className = `bar ${type}`;
+            const height = (value / maxValue) * 250;
+            
+            setTimeout(() => {
+                bar.style.height = `${height}px`;
+            }, 100);
+
+            if (month) {
+                const label = document.createElement('div');
+                label.className = 'bar-label';
+                label.textContent = month;
+                bar.appendChild(label);
+            }
+
+            return bar;
+        }
+    </script>
+</body>
+</html>

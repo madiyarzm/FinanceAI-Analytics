@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding P/E Ratio | FinanceAI Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-content {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 1rem;
+            padding: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            opacity: 0.9;
+        }
+
+        .formula-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .formula {
+            font-size: 1.5rem;
+            color: #1e293b;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            display: inline-block;
+        }
+
+        .formula-operator {
+            color: #3b82f6;
+            margin: 0 0.5rem;
+            font-weight: bold;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .example-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .example-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .interpretation-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .range-slider {
+            width: 100%;
+            margin: 2rem 0;
+        }
+
+        .slider-container {
+            position: relative;
+            height: 40px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .pe-indicator {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
+            border-radius: 50%;
+            top: 10px;
+            transition: left 0.3s ease;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .interpretation-text {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            color: #1e293b;
+        }
+
+        .tips-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .tip-icon {
+            color: #3b82f6;
+            font-size: 1.25rem;
+            padding-top: 0.25rem;
+        }
+
+        .tip-content h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-content p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .formula {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanceAI Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Price-to-Earnings (P/E) Ratio</h1>
+                <p>A key valuation metric that helps investors determine if a stock is overvalued or undervalued by comparing its price to its earnings.</p>
+            </div>
+        </section>
+
+        <div class="formula-card">
+            <h2>The P/E Ratio Formula</h2>
+            <div class="formula">
+                <span>P/E Ratio</span>
+                <span class="formula-operator">=</span>
+                <span>Stock Price</span>
+                <span class="formula-operator">/</span>
+                <span>Earnings Per Share</span>
+            </div>
+        </div>
+
+        <div class="example-grid">
+            <div class="example-card">
+                <div class="example-header">
+                    <div class="example-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3 class="example-title">Example Calculation</h3>
+                </div>
+                <p>Stock Price: $50</p>
+                <p>Earnings Per Share: $2.50</p>
+                <p>P/E Ratio = $50 / $2.50 = 20</p>
+                <p>This means investors are willing to pay $20 for every $1 of earnings.</p>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <div class="example-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3 class="example-title">What It Tells Us</h3>
+                </div>
+                <p>A higher P/E suggests investors expect higher earnings growth.</p>
+                <p>A lower P/E might indicate a company is undervalued or has limited growth prospects.</p>
+            </div>
+        </div>
+
+        <div class="interpretation-section">
+            <h2>P/E Ratio Interpretation</h2>
+            <div class="slider-container">
+                <div class="pe-indicator" id="peIndicator"></div>
+            </div>
+            <div class="slider-labels">
+                <span>0</span>
+                <span>10 (Low)</span>
+                <span>20 (Average)</span>
+                <span>30 (High)</span>
+                <span>40+</span>
+            </div>
+            <div class="interpretation-text" id="interpretationText">
+                Drag the slider to see different P/E ratio interpretations
+            </div>
+        </div>
+
+        <div class="tips-section">
+            <h2>Key Considerations</h2>
+            <div class="tip-item">
+                <div class="tip-icon">
+                    <i class="fas fa-industry"></i>
+                </div>
+                <div class="tip-content">
+                    <h4>Industry Context</h4>
+                    <p>P/E ratios vary significantly by industry. Compare companies within the same sector.</p>
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="tip-content">
+                    <h4>Time Horizon</h4>
+                    <p>Consider both trailing (past) and forward (projected) P/E ratios for a complete picture.</p>
+                </div>
+            </div>
+            <div class="tip-item">
+                <div class="tip-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="tip-content">
+                    <h4>Growth Stage</h4>
+                    <p>High-growth companies often have higher P/E ratios due to future earnings potential.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const interpretations = {
+                0: "Extremely low P/E - might indicate significant risks or problems",
+                10: "Low P/E - potentially undervalued or limited growth prospects",
+                20: "Average P/E - typically considered fair value",
+                30: "High P/E - suggests high growth expectations",
+                40: "Very high P/E - might indicate overvaluation"
+            };
+
+            const container = document.querySelector('.slider-container');
+            const indicator = document.getElementById('peIndicator');
+            const interpretationText = document.getElementById('interpretationText');
+            let isDragging = false;
+
+            container.addEventListener('mousedown', startDragging);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDragging);
+
+            container.addEventListener('touchstart', startDragging);
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('touchend', stopDragging);
+
+            function startDragging(e) {
+                isDragging = true;
+                drag(e);
+            }
+
+            function stopDragging() {
+                isDragging = false;
+            }
+
+            function drag(e) {
+                if (!isDragging) return;
+
+                const containerRect = container.getBoundingClientRect();
+                const x = (e.type === 'mousemove' ? e.clientX : e.touches[0].clientX) - containerRect.left;
+                const position = Math.max(0, Math.min(x, containerRect.width));
+                const percentage = position / containerRect.width;
+                const peValue = Math.round(percentage * 40);
+
+                indicator.style.left = `${percentage * 100}%`;
+
+                // Update interpretation text
+                for (let value in interpretations) {
+                    if (peValue <= value) {
+                        interpretationText.textContent = interpretations[value];
+                        break;
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

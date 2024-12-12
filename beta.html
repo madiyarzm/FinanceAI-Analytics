@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Beta | FinanceAI Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-content {
+            max-width: 1000px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 1rem;
+            padding: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            opacity: 0.9;
+        }
+
+        .beta-scale {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .scale-container {
+            position: relative;
+            height: 60px;
+            background: #f1f5f9;
+            border-radius: 30px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .scale-section {
+            position: absolute;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: opacity 0.3s;
+        }
+
+        .defensive { left: 0; width: 33%; background: #10b981; }
+        .neutral { left: 33%; width: 34%; background: #3b82f6; }
+        .aggressive { left: 67%; width: 33%; background: #ef4444; }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .scale-label {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .example-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .defensive-bg { background: #10b981; }
+        .neutral-bg { background: #3b82f6; }
+        .aggressive-bg { background: #ef4444; }
+
+        .example-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .example-content {
+            color: #64748b;
+        }
+
+        .formula-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .formula {
+            font-size: 1.25rem;
+            color: #1e293b;
+            margin: 1rem 0;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            display: inline-block;
+        }
+
+        .key-points {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .point-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .point-icon {
+            color: #3b82f6;
+            font-size: 1.25rem;
+            padding-top: 0.25rem;
+        }
+
+        .point-content h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .point-content p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .scale-labels {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanceAI Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Understanding Beta (β)</h1>
+                <p>Beta measures a stock's volatility relative to the overall market. It indicates how sensitive a stock's returns are to market movements.</p>
+            </div>
+        </section>
+
+        <div class="beta-scale">
+            <h2>Beta Scale</h2>
+            <div class="scale-container">
+                <div class="scale-section defensive">β < 1</div>
+                <div class="scale-section neutral">β = 1</div>
+                <div class="scale-section aggressive">β > 1</div>
+            </div>
+            <div class="scale-labels">
+                <div class="scale-label">
+                    <strong>Less Volatile</strong><br>
+                    Beta < 1
+                </div>
+                <div class="scale-label">
+                    <strong>Market Volatility</strong><br>
+                    Beta = 1
+                </div>
+                <div class="scale-label">
+                    <strong>More Volatile</strong><br>
+                    Beta > 1
+                </div>
+            </div>
+        </div>
+
+        <div class="examples-grid">
+            <div class="example-card">
+                <div class="example-header">
+                    <div class="example-icon defensive-bg">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="example-title">Low Beta (β < 1)</h3>
+                </div>
+                <div class="example-content">
+                    <p>If market goes up 10%:</p>
+                    <p>Stock with β = 0.5 goes up 5%</p>
+                    <p>Examples: Utilities, Consumer Staples</p>
+                </div>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <div class="example-icon neutral-bg">
+                        <i class="fas fa-equals"></i>
+                    </div>
+                    <h3 class="example-title">Market Beta (β = 1)</h3>
+                </div>
+                <div class="example-content">
+                    <p>If market goes up 10%:</p>
+                    <p>Stock with β = 1 goes up 10%</p>
+                    <p>Examples: Large-cap index funds</p>
+                </div>
+            </div>
+
+            <div class="example-card">
+                <div class="example-header">
+                    <div class="example-icon aggressive-bg">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="example-title">High Beta (β > 1)</h3>
+                </div>
+                <div class="example-content">
+                    <p>If market goes up 10%:</p>
+                    <p>Stock with β = 1.5 goes up 15%</p>
+                    <p>Examples: Tech stocks, Small-caps</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="formula-section">
+            <h2>Beta Calculation</h2>
+            <div class="formula">
+                β = Covariance(Stock Return, Market Return) / Variance(Market Return)
+            </div>
+            <p>Typically calculated using 5 years of monthly returns against a market index like the S&P 500</p>
+        </div>
+
+        <div class="key-points">
+            <h2>Key Points to Remember</h2>
+            <div class="point-item">
+                <div class="point-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="point-content">
+                    <h4>Market Movement</h4>
+                    <p>Beta shows how much a stock typically moves in relation to the broader market.</p>
+                </div>
+            </div>
+            <div class="point-item">
+                <div class="point-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="point-content">
+                    <h4>Risk Indicator</h4>
+                    <p>Higher beta means higher potential returns but also higher risk.</p>
+                </div>
+            </div>
+            <div class="point-item">
+                <div class="point-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="point-content">
+                    <h4>Historical Measure</h4>
+                    <p>Beta is calculated using historical data and may not predict future volatility.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects for scale sections
+            const sections = document.querySelectorAll('.scale-section');
+            sections.forEach(section => {
+                section.addEventListener('mouseover', function() {
+                    sections.forEach(s => {
+                        if (s !== this) s.style.opacity = '0.7';
+                    });
+                });
+                section.addEventListener('mouseout', function() {
+                    sections.forEach(s => s.style.opacity = '1');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

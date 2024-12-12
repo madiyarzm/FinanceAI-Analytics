@@ -75,9 +75,6 @@
             max-width: 1400px;
             margin: 5rem auto 2rem;
             padding: 1rem 2rem;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
         }
 
         .analysis-tools {
@@ -127,6 +124,7 @@
         }
 
         .chat-section {
+            
             background: white;
             border-radius: 12px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -188,15 +186,6 @@
             border: none;
         }
 
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-
-            .analysis-tools {
-                display: none;
-            }
-        }
 
         @media (max-width: 768px) {
             .nav-links {
@@ -212,6 +201,10 @@
                 height: calc(100vh - 6rem);
             }
         }
+
+        .chat-section{
+            width: 100%; 
+        }
     </style>
 </head>
 <body>
@@ -222,17 +215,17 @@
                 <span>FinanceAI Analytics</span>
             </a>
             <div class="nav-links">
-                <a href="index.html">
+                <a href="stock.html">
                     <i class="fas fa-home"></i>
-                    Dashboard
+                    Stock Analysis
                 </a>
-                <a href="chat.html" class="active">
+                <a href="region.html" class="active">
                     <i class="fas fa-chart-bar"></i>
-                    Analysis
+                    Region Analysis
                 </a>
-                <a href="/reports">
+                <a href="analysis.html">
                     <i class="fas fa-file-alt"></i>
-                    Reports
+                    Analysis Reports
                 </a>
                 <a href="/settings">
                     <i class="fas fa-cog"></i>
@@ -243,55 +236,6 @@
     </nav>
 
     <main class="main-content">
-        <aside class="analysis-tools">
-            <div class="tool-section">
-                <h3>Financial Analysis</h3>
-                <button class="tool-btn">
-                    <i class="fas fa-chart-line"></i>
-                    Trend Analysis
-                </button>
-                <button class="tool-btn">
-                    <i class="fas fa-calculator"></i>
-                    Ratio Analysis
-                </button>
-                <button class="tool-btn">
-                    <i class="fas fa-coins"></i>
-                    Cash Flow Analysis
-                </button>
-            </div>
-
-            <div class="tool-section">
-                <h3>Forecasting</h3>
-                <button class="tool-btn">
-                    <i class="fas fa-chart-bar"></i>
-                    Revenue Forecast
-                </button>
-                <button class="tool-btn">
-                    <i class="fas fa-chart-pie"></i>
-                    Budget Planning
-                </button>
-                <button class="tool-btn">
-                    <i class="fas fa-arrow-trend-up"></i>
-                    Growth Projections
-                </button>
-            </div>
-
-            <div class="tool-section">
-                <h3>Risk Analysis</h3>
-                <button class="tool-btn">
-                    <i class="fas fa-shield-alt"></i>
-                    Risk Assessment
-                </button>
-                <button class="tool-btn">
-                    <i class="fas fa-percentage"></i>
-                    Sensitivity Analysis
-                </button>
-                <button class="tool-btn">
-                    <i class="fas fa-balance-scale"></i>
-                    Compliance Check
-                </button>
-            </div>
-        </aside>
 
         <section class="chat-section">
             <div class="chat-header">
@@ -308,7 +252,7 @@
             
             <div class="chat-frame-container">
                 <iframe
-                src="https://udify.app/chat/cMB1R9Kg26Dj84Uz"
+                src="https://udify.app/chat/btRcrKG8SXoP5ebm"
                 style="width: 100%; height: 100%; min-height: 700px"
                 frameborder="0"
                 allow="microphone">

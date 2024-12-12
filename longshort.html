@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Long vs Short | FinanceAI Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 1rem;
+            padding: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            opacity: 0.9;
+        }
+
+        .positions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .position-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .position-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .position-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .long-bg { background: #10b981; }
+        .short-bg { background: #ef4444; }
+
+        .position-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .example-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .comparison-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .key-points {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .point-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .point-icon {
+            color: #3b82f6;
+            font-size: 1.25rem;
+            padding-top: 0.25rem;
+        }
+
+        .point-content h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .point-content p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .stock-chart {
+            width: 100%;
+            height: 200px;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .chart-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #3b82f6;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .price-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #3b82f6;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .price-label {
+            position: absolute;
+            font-size: 0.875rem;
+            color: #64748b;
+            transform: translateX(-50%);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanceAI Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Long vs Short Positions</h1>
+                <p>Understanding the two fundamental ways to trade stocks: going long (buying) and going short (selling borrowed shares).</p>
+            </div>
+        </section>
+
+        <div class="positions-grid">
+            <div class="position-card">
+                <div class="position-header">
+                    <div class="position-icon long-bg">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <h3 class="position-title">Long Position</h3>
+                </div>
+                <p><strong>Definition:</strong> Buying a stock with the expectation it will increase in value</p>
+                <p><strong>Maximum Loss:</strong> Limited to initial investment</p>
+                <p><strong>Maximum Gain:</strong> Unlimited potential upside</p>
+                <p><strong>When to Use:</strong> When you expect the stock price to rise</p>
+            </div>
+
+            <div class="position-card">
+                <div class="position-header">
+                    <div class="position-icon short-bg">
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                    <h3 class="position-title">Short Position</h3>
+                </div>
+                <p><strong>Definition:</strong> Borrowing shares to sell, hoping to buy back at a lower price</p>
+                <p><strong>Maximum Loss:</strong> Unlimited potential loss</p>
+                <p><strong>Maximum Gain:</strong> Limited to stock falling to zero</p>
+                <p><strong>When to Use:</strong> When you expect the stock price to fall</p>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>How Short Selling Works</h2>
+            <div class="example-step">
+                <div class="step-number">1</div>
+                <div>
+                    <h4>Borrow Shares</h4>
+                    <p>Borrow shares from a broker (paying interest)</p>
+                </div>
+            </div>
+            <div class="example-step">
+                <div class="step-number">2</div>
+                <div>
+                    <h4>Sell Shares</h4>
+                    <p>Sell borrowed shares at current market price</p>
+                </div>
+            </div>
+            <div class="example-step">
+                <div class="step-number">3</div>
+                <div>
+                    <h4>Wait for Price Drop</h4>
+                    <p>Wait for stock price to fall (hopefully)</p>
+                </div>
+            </div>
+            <div class="example-step">
+                <div class="step-number">4</div>
+                <div>
+                    <h4>Buy Back & Return</h4>
+                    <p>Buy shares at lower price and return to broker</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="key-points">
+            <h2>Key Considerations</h2>
+            <div class="point-item">
+                <div class="point-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <div class="point-content">
+                    <h4>Risk Levels</h4>
+                    <p>Short selling carries higher risk due to unlimited potential losses if the stock price rises significantly.</p>
+                </div>
+            </div>
+            <div class="point-item">
+                <div class="point-icon">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div class="point-content">
+                    <h4>Margin Requirements</h4>
+                    <p>Short selling requires a margin account and may have higher maintenance requirements.</p>
+                </div>
+            </div>
+            <div class="point-item">
+                <div class="point-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="point-content">
+                    <h4>Timing</h4>
+                    <p>Short positions often require more precise timing due to borrowing costs and unlimited risk.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="example-section">
+            <h2>Example Scenarios</h2>
+            <table class="comparison-table">
+                <tr>
+                    <th>Scenario</th>
+                    <th>Long Position</th>
+                    <th>Short Position</th>
+                </tr>
+                <tr>
+                    <td>Initial Price</td>
+                    <td>$100</td>
+                    <td>$100</td>
+                </tr>
+                <tr>
+                    <td>Price Change</td>
+                    <td>Rises to $120</td>
+                    <td>Falls to $80</td>
+                </tr>
+                <tr>
+                    <td>Result</td>
+                    <td>+$20 profit</td>
+                    <td>+$20 profit</td>
+                </tr>
+                <tr>
+                    <td>Investment</td>
+                    <td>$100</td>
+                    <td>Margin requirement</td>
+                </tr>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects for position cards
+            const cards = document.querySelectorAll('.position-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseover', function() {
+                    this.style.transform = 'translateY(-5px)';
+                    this.style.transition = 'transform 0.3s ease';
+                });
+                card.addEventListener('mouseout', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

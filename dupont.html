@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DuPont Analysis | FinanceAI Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 1rem;
+            padding: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .dupont-tree {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .component {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .component-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .component-icon {
+            width: 40px;
+            height: 40px;
+            background: #3b82f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .component-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .component-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 1rem 0;
+        }
+
+        .formula-container {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .formula-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+        }
+
+        .formula {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            font-size: 1.25rem;
+            color: #1e293b;
+        }
+
+        .formula-operator {
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-icon {
+            width: 48px;
+            height: 48px;
+            background: #3b82f6;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .metric-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 1rem 0;
+        }
+
+        .metric-desc {
+            color: #64748b;
+        }
+
+        .explanation {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .explanation h2 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .explanation p {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .formula {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanceAI Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>DuPont Analysis</h1>
+                <p>DuPont analysis breaks down Return on Equity (ROE) into three main components: Profit Margin, Asset Turnover, and Financial Leverage. This decomposition helps identify the drivers of a company's ROE.</p>
+            </div>
+        </section>
+
+        <div class="formula-container">
+            <h2 class="formula-title">DuPont Formula</h2>
+            <div class="formula">
+                <span>ROE</span>
+                <span class="formula-operator">=</span>
+                <span>Net Profit Margin</span>
+                <span class="formula-operator">×</span>
+                <span>Asset Turnover</span>
+                <span class="formula-operator">×</span>
+                <span>Financial Leverage</span>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <h3 class="metric-title">Net Profit Margin</h3>
+                <div class="metric-value">15.8%</div>
+                <p class="metric-desc">Net Income / Revenue</p>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-sync"></i>
+                </div>
+                <h3 class="metric-title">Asset Turnover</h3>
+                <div class="metric-value">1.2x</div>
+                <p class="metric-desc">Revenue / Total Assets</p>
+            </div>
+
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-balance-scale"></i>
+                </div>
+                <h3 class="metric-title">Financial Leverage</h3>
+                <div class="metric-value">2.4x</div>
+                <p class="metric-desc">Total Assets / Shareholders' Equity</p>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h2>Understanding DuPont Analysis</h2>
+            <p>DuPont analysis provides a comprehensive view of a company's financial performance by breaking down ROE into its core components. This helps identify whether profitability, operational efficiency, or leverage is driving returns.</p>
+            <p>Each component reveals different aspects of financial performance:</p>
+            <ul>
+                <li><strong>Net Profit Margin:</strong> Measures operational efficiency and pricing strategy</li>
+                <li><strong>Asset Turnover:</strong> Indicates how effectively assets are being used to generate sales</li>
+                <li><strong>Financial Leverage:</strong> Shows the extent of debt financing relative to equity</li>
+            </ul>
+        </div>
+
+        <div id="chartContainer" class="dupont-tree">
+            <!-- Chart will be added via JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animation for metrics
+            const metricValues = document.querySelectorAll('.metric-value');
+            metricValues.forEach(value => {
+                value.style.opacity = '0';
+                setTimeout(() => {
+                    value.style.transition = 'opacity 0.5s ease';
+                    value.style.opacity = '1';
+                }, 500);
+            });
+
+            // You can add more interactive features here
+        });
+    </script>
+</body>
+</html>

@@ -3,332 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Financial Analysis Assistant</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>FinMate</title>
     <style>
-        * {
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 50.2% -175%, rgb(14, 72, 222) 5.2%, #010a1d 75.3%);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center; /* Ensures the background image is centered */
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: #f8fafc;
-            color: #333;
-            min-height: 100vh;
-        }
-
-        .navbar {
-            background: #1e293b;
-            padding: 1rem 2rem;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #cbd5e1;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #fff;
-        }
-
-        .main-content {
-            max-width: 1400px;
-            margin: 5rem auto 2rem;
-            padding: 0 2rem;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            gap: 2rem;
-        }
-
-        .sidebar {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            padding: 1.5rem;
-            height: fit-content;
-        }
-
-        .upload-section {
-            margin-bottom: 2rem;
-        }
-
-        .upload-btn {
-            width: 100%;
-            padding: 1rem;
-            background: #2563eb;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: background-color 0.3s;
-        }
-
-        .upload-btn:hover {
-            background: #1d4ed8;
-        }
-
-        .recent-files {
-            margin-top: 2rem;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            border-radius: 6px;
-            transition: background-color 0.3s;
-        }
-
-        .file-item:hover {
-            background: #f1f5f9;
-        }
-
-        .file-icon {
-            color: #64748b;
-        }
-
-        .file-info {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 500;
-            color: #334155;
-        }
-
-        .file-date {
-            font-size: 0.75rem;
-            color: #64748b;
-        }
-
-        .chat-container {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: calc(100vh + 7rem);
-        }
-
-        .chat-header {
-            background: #1e293b;
-            color: white;
-            padding: 1rem 1.5rem;
-            display: flex;
+            justify-content: center;
             align-items: center;
-            justify-content: space-between;
+            height: 100vh;
+            color: white; /* White text for better visibility on a dark background */
+        }
+        
+        body {
+            background-color: #000000;
         }
 
-        .chat-title {
-            font-size: 1.2rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
-        .status-indicator {
-            width: 8px;
-            height: 8px;
-            background: #22c55e;
+        /* Stars */
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff;
             border-radius: 50%;
+            animation: twinkle 2s infinite;
         }
 
-        .chat-frame {
-            flex: 1;
-            border: none;
-            width: 100%;
-            background: #ffffff;
+        @keyframes twinkle {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.3;
+            }
         }
 
-        .quick-actions {
-            padding: 1rem;
-            background: #f8fafc;
-            border-bottom: 1px solid #e2e8f0;
+        h1 {
+            font-size: 32px; /* Appropriate font size for main title */
+            text-align: center;
+            margin-top: 150px;
+            font-size: 50px;
+            margin-bottom: -100;
         }
 
-        .action-buttons {
-            display: flex;
-            gap: 1rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
+
+        h1::before,
+        h1::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
         }
 
-        .action-btn {
-            padding: 0.5rem 1rem;
-            background: #fff;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            font-size: 0.875rem;
-            color: #475569;
+        h1::before {
+            background: var(--bg-color);
+            animation: typewriter var(--typewriterSpeed)
+                steps(var(--typewriterCharacters)) 1s forwards;
+        }
+
+        h1::after {
+            width: 0.125em;
+            background: black;
+            animation: typewriter var(--typewriterSpeed)
+                steps(var(--typewriterCharacters)) 1s forwards,
+                blink 750ms steps(var(--typewriterCharacters)) infinite;
+        }
+
+        .subtitle {
+            color: hsl(0 0% 0% / 0.7);
+            font-size: 2rem;
+            font-weight: 400;
+            opacity: 0;
+            transform: translateY(3rem);
+            animation: fadeInUp 2s ease calc(var(--typewriterSpeed) + 2s) forwards;
+        }
+
+        @keyframes typewriter {
+            to {
+                left: 100%;
+            }
+        }
+
+        @keyframes blink {
+            to {
+                background: transparent;
+            }
+        }
+
+        h2 {
+            font-weight: bold;
+            font-weight: 400; /* Less emphasis on the subtitle */
+            text-align: center;
+
+            font-weight: bold; /* Make the subtitle bolder */
+            text-shadow: 2px 2px 40px rgba(18, 18, 18, 0.6); /* Add a more noticeable drop shadow to the subtitle */
+        }
+
+        h3{
+            text-align: center;
+            font-size: 15px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px 5px; /* Slightly reduce horizontal margin */
+            font-size: 16px;
+            margin-right: 10px;
+            font-weight: bold;
             cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.3s;
+            border: none;
+            border-radius: 5px;
+            background-color: #253259; /* Slightly transparent dark grey */
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            pointer-events: auto; /* Enable pointer events for the buttons */
+        }
+        .btn:hover {
+            background-color: #0512d1; /* Lighter grey on hover */
+            transform: translateY(-3px); /* Subtle lift effect */
+        }
+        .btn {
+            display: inline-block;
+            
+            padding: 10px 20px;
+            margin: 10px 5px; /* Slightly reduce horizontal margin */
+            font-size: 16px;
+            margin-right: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(7, 7, 7, 0.8); /* Slightly transparent dark grey */
+            background-color: #253259; /* Slightly transparent dark grey */
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            transform: translateY(-3px); /* Subtle lift effect */
+        }
+        .btn-container {
+            margin-top: 10px;
+            display: flex;
+            margin-right:46%;
+            padding-top: 50px;
+            margin-right:0%;
+            /* padding-top: 100px; */
+            justify-content: center;
+            width: 100%; /* Full width to center buttons on all screen sizes */
+        }
+        h1{
+            text-align: center;
+        }
+        #btwn{
+            font-size: 20px;
+        }
+        .peppercorntitle{
+            margin-top: -80px;
+        }
+        h1 {
+            font-size: 9vmin;
+            color: #8bf;
+            padding-top: 100px;
+            text-align: left;
+            font-family: Lato, sans-serif;
+            font-weight: 700;
+            margin: 1rem 0 1rem 2rem;
         }
 
-        .action-btn:hover {
-            background: #f1f5f9;
-            border-color: #cbd5e1;
+        /* Typewriter effect */
+        /* Replace the typing animation keyframes */
+@keyframes typing {
+    0.0000%, 27.3488% { content: ""; }
+    1.1395%, 26.2093% { content: "a"; }
+    2.2791%, 25.0698% { content: "an"; }
+    3.4186%, 23.9302% { content: "ana"; }
+    4.5581%, 22.7907% { content: "anal"; }
+    5.6977%, 21.6512% { content: "analy"; }
+    6.8372%, 20.5116% { content: "analys"; }
+    7.9767%, 19.3721% { content: "analyst."; }
+
+    30.7674%, 51.2791% { content: ""; }
+    31.9070%, 50.1395% { content: "b"; }
+    33.0465%, 49.0000% { content: "be"; }
+    34.1860%, 47.8605% { content: "beg"; }
+    35.3256%, 46.7209% { content: "begi"; }
+    36.4651%, 45.5814% { content: "begin"; }
+    37.6047%, 44.4419% { content: "beginn"; }
+    38.7442%, 43.3023% { content: "beginne"; }
+    39.8837%, 42.1628% { content: "beginner."; }
+
+    54.6977%, 75.2093% { content: ""; }
+    55.8372%, 74.0698% { content: "s"; }
+    56.9767%, 72.9302% { content: "st"; }
+    58.1163%, 71.7907% { content: "sto"; }
+    59.2558%, 70.6512% { content: "stoc"; }
+    60.3953%, 69.5116% { content: "stock"; }
+    61.5349%, 68.3721% { content: "stockh"; }
+    62.6744%, 67.2326% { content: "stockho"; }
+    63.8140%, 66.0930% { content: "stockhol"; }
+    64.9535%, 64.9535% { content: "stockhold"; }
+    66.0930%, 63.8140% { content: "stockholde"; }
+    67.2326%, 62.6744% { content: "stockholder."; }
+}
+
+/* Update the reduced motion sequence */
+@media (prefers-reduced-motion) {
+    @keyframes sequencePopup {
+        0%, 100% { content: "analyst."; }
+        25% { content: "beginner."; }
+        50% { content: "stockholder."; }
+    }
+}
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        @media (max-width: 1024px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                display: none;
-            }
+        .typewriter {
+            --caret: currentcolor;
         }
 
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
+        .typewriter::before {
+            content: "";
+            animation: typing 13.5s infinite;
+        }
 
-            .main-content {
-                margin-top: 5rem;
-                padding: 0 1rem;
-            }
+        .typewriter::after {
+            content: "";
+            border-right: 1px solid var(--caret);
+            animation: blink 0.5s linear infinite;
+        }
+
+        .typewriter.thick::after {
+            border-right: 1ch solid var(--caret);
+        }
+
+        .typewriter.nocaret::after {
+            border-right: 0;
+        }
+
+        h4{
+            font-size: 25px;
+            margin-left: -1%;
         }
     </style>
 </head>
-<body>
-    <nav class="navbar">
-        <div class="nav-content">
-            <div class="logo">
-                <i class="fas fa-chart-line"></i>
-                <span>FinanceAI Analytics</span>
-            </div>
-            <div class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
-                <a href="chat.html"><i class="fas fa-chart-bar"></i> Analysis</a>
-                <a href="#reports"><i class="fas fa-file-alt"></i> Reports</a>
-                <a href="#settings"><i class="fas fa-cog"></i> Settings</a>
-            </div>
-        </div>
-    </nav>
+<body class="star-field">
+    
+    <div class="peppercorntitle"><h2>FinMate AI</h2></div>
+    
+    <h1>Financial Analysis Enhanced by AI</h1>
+     
+    <h4 aria-label="Hello, developer">
+        Hello, &nbsp;<span class="typewriter thick"></span>
+    </h4>
+    
 
-    <main class="main-content">
-        <aside class="sidebar">
-            <div class="upload-section">
-                <button class="upload-btn">
-                    <i class="fas fa-upload"></i>
-                    Upload Financial Data
-                </button>
-            </div>
-            
-            <div class="recent-files">
-                <h3 class="mb-4">Recent Files</h3>
-                <div class="file-item">
-                    <i class="fas fa-file-excel file-icon"></i>
-                    <div class="file-info">
-                        <div class="file-name">Q4_Financial_Report.xlsx</div>
-                        <div class="file-date">Updated 2 hours ago</div>
-                    </div>
-                </div>
-                <div class="file-item">
-                    <i class="fas fa-file-csv file-icon"></i>
-                    <div class="file-info">
-                        <div class="file-name">Revenue_2023.csv</div>
-                        <div class="file-date">Updated yesterday</div>
-                    </div>
-                </div>
-                <div class="file-item">
-                    <i class="fas fa-file-pdf file-icon"></i>
-                    <div class="file-info">
-                        <div class="file-name">Annual_Report_2023.pdf</div>
-                        <div class="file-date">Updated 3 days ago</div>
-                    </div>
-                </div>
-            </div>
-        </aside>
+    <div class="btn-container">
+        <a href="#" class="btn" onclick="redirectToStock()">Let's Start!</a>
+        <h2 id="btwn"></h2>
+    </div>
+    
+    <script>
+        function redirectToStock() {
+            window.location.href = 'stock.html';
+        }
+    </script>
 
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-title">
-                    <i class="fas fa-robot"></i>
-                    Financial Analysis Assistant
-                </div>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <div class="status-indicator"></div>
-                    <span style="font-size: 0.875rem;">AI Ready</span>
-                </div>
-            </div>
-
-            <div class="quick-actions">
-                <div class="action-buttons">
-                    <button class="action-btn">Analyze Cash Flow</button>
-                    <button class="action-btn">Revenue Forecast</button>
-                    <button class="action-btn">Expense Analysis</button>
-                    <button class="action-btn">Profit Margins</button>
-                    <button class="action-btn">Financial Ratios</button>
-                    <button class="action-btn">Risk Assessment</button>
-                </div>
-            </div>
-
-            <iframe
-                src="https://udify.app/chat/9ORJfoVsuMnA3GKk"
-                class="chat-frame"
-                frameborder="0"
-                allow="microphone">
-            </iframe>
-        </div>
-    </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const uploadBtn = document.querySelector('.upload-btn');
-            uploadBtn.addEventListener('click', function() {
-                // Implement file upload functionality
-                console.log('Upload button clicked');
-            });
+        const numStars = 150; // Adjust the number of stars as needed
 
-            const actionButtons = document.querySelectorAll('.action-btn');
-            actionButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Implement quick action functionality
-                    console.log('Action button clicked:', this.textContent);
-                });
-            });
-        });
+        for (let i = 0; i < numStars; i++) {
+            createStar(i);
+        }
+
+        function createStar(index) {
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.style.top = Math.random() * 100 + "%";
+            star.style.left = Math.random() * 100 + "%";
+            star.style.animationDelay = Math.random() * 5 + "s";
+            document.body.appendChild(star);
+        }
+
     </script>
 </body>
 </html>

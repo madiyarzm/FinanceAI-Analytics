@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Analysis | FinanceAI Analytics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 6rem auto 2rem;
+            padding: 0 2rem;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 1rem;
+            padding: 3rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            opacity: 0.9;
+        }
+
+        .risk-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .risk-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .risk-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .risk-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .risk-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .risk-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .risk-level {
+            font-size: 2rem;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .risk-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .low-risk {
+            background: #10b981;
+        }
+
+        .medium-risk {
+            background: #f59e0b;
+        }
+
+        .high-risk {
+            background: #ef4444;
+        }
+
+        .gauge-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .gauge-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 2rem;
+        }
+
+        .gauge-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .gauge {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            margin: 1rem;
+        }
+
+        .metric-section {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .metric-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .metric-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin: 0.5rem 0;
+        }
+
+        .metric-label {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .recommendations {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .recommendation-icon {
+            color: #3b82f6;
+            font-size: 1.25rem;
+            padding-top: 0.25rem;
+        }
+
+        .recommendation-content h4 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .recommendation-content p {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                padding: 0 1rem;
+            }
+
+            .gauge {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>FinanceAI Analytics</span>
+            </a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Risk Analysis</h1>
+                <p>Comprehensive analysis of various risk factors affecting your investment portfolio. Monitor and manage market, credit, operational, and liquidity risks effectively.</p>
+            </div>
+        </section>
+
+        <div class="risk-overview">
+            <div class="risk-card">
+                <div class="risk-header">
+                    <div class="risk-icon low-risk">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="risk-title">Market Risk</h3>
+                </div>
+                <div class="risk-level" style="color: #10b981;">Low</div>
+                <div class="risk-trend">
+                    <i class="fas fa-arrow-down" style="color: #10b981;"></i>
+                    <span>Decreased by 2.5%</span>
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <div class="risk-header">
+                    <div class="risk-icon medium-risk">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3 class="risk-title">Credit Risk</h3>
+                </div>
+                <div class="risk-level" style="color: #f59e0b;">Medium</div>
+                <div class="risk-trend">
+                    <i class="fas fa-arrow-up" style="color: #f59e0b;"></i>
+                    <span>Increased by 1.8%</span>
+                </div>
+            </div>
+
+            <div class="risk-card">
+                <div class="risk-header">
+                    <div class="risk-icon high-risk">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h3 class="risk-title">Operational Risk</h3>
+                </div>
+                <div class="risk-level" style="color: #ef4444;">High</div>
+                <div class="risk-trend">
+                    <i class="fas fa-arrow-up" style="color: #ef4444;"></i>
+                    <span>Increased by 3.2%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="metric-section">
+            <h2 class="gauge-title">Key Risk Metrics</h2>
+            <div class="metric-grid">
+                <div class="metric-card">
+                    <div class="metric-value">2.45%</div>
+                    <div class="metric-label">Value at Risk (VaR)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1.82</div>
+                    <div class="metric-label">Beta</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">15.6%</div>
+                    <div class="metric-label">Standard Deviation</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">0.85</div>
+                    <div class="metric-label">Sharpe Ratio</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="recommendations">
+            <h2 class="gauge-title">Risk Management Recommendations</h2>
+            <div class="recommendation-item">
+                <div class="recommendation-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="recommendation-content">
+                    <h4>Diversification Strategy</h4>
+                    <p>Consider increasing portfolio diversification across different sectors to reduce market-specific risks.</p>
+                </div>
+            </div>
+            <div class="recommendation-item">
+                <div class="recommendation-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <div class="recommendation-content">
+                    <h4>Asset Allocation</h4>
+                    <p>Review and adjust asset allocation to maintain optimal risk-return balance based on market conditions.</p>
+                </div>
+            </div>
+            <div class="recommendation-item">
+                <div class="recommendation-icon">
+                    <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="recommendation-content">
+                    <h4>Hedging Opportunities</h4>
+                    <p>Explore hedging strategies to protect against potential market downturns and volatility.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate metric values
+            const metricValues = document.querySelectorAll('.metric-value');
+            metricValues.forEach(value => {
+                value.style.opacity = '0';
+                setTimeout(() => {
+                    value.style.transition = 'opacity 0.5s ease';
+                    value.style.opacity = '1';
+                }, 500);
+            });
+
+            // Add more interactive features as needed
+        });
+    </script>
+</body>
+</html>
