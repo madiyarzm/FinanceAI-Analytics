@@ -1,62 +1,55 @@
-# FinanceAI Analytics  
-Empowering users to make sense of complex financial data through conversational AI.
 
-![FinanceAI Dashboard](image.png)
+# 💼 FinanceAI Analytics  
+**AI-powered financial analyst assistant** that interprets uploaded reports and responds intelligently to user queries through a structured chat flow.
+
+![FinanceAI UI](image.png)
 
 ---
 
 ## Overview  
-**FinanceAI Analytics** is an intelligent, chat-based platform that helps users analyze financial documents such as **PDF**, **Excel**, and **CSV** files. Whether you're a retail investor or a financial analyst, the tool provides actionable insights from reports, enabling better investment decisions through AI-powered conversation.
+**FinanceAI Analytics** is an intelligent assistant designed to help investors and analysts make sense of complex financial documents. It supports `.pdf`, `.csv`, and `.xlsx` formats, using document parsing and GPT-4o-powered workflows to produce modular, explainable insights such as profitability, risk, and valuation metrics.
 
 ---
 
-## Features
+## 🧩 Core Architecture
 
-- **Upload & Analyze**  
-  Upload financial documents (e.g., `Annual_Report_2023.pdf`, `Revenue_2023.csv`, `Q4_Financial_Report.xlsx`) and receive instant analysis.
+### 🔁 Flow-Based Logic
 
-- **Chat with FinMate**  
-  Engage with *Finmate*, your AI-powered financial assistant, for insights, ratios, comparisons, and investment guidance.
+- ✅ **Document Extraction**: Parses financial reports for structured data.  
+- ✅ **Proficiency Routing**: Users are routed differently based on financial knowledge (beginner or advanced).  
+- ✅ **GPT-4o Region Bot**: Outputs insights tailored to different business regions and stakeholder concerns.  
+- ✅ **Question Classifier**: Routes user questions to correct analysis modules:
+  - Profitability Analysis  
+  - DuPont Breakdown  
+  - Cash Flow Interpretation  
+  - Risk Metrics  
+  - Custom Advice
 
-- **Modular Analysis Tools**  
-  - **P/E Ratio**  
-  - **EPS Analysis**  
-  - **Beta Evaluation**  
-  - **Long/Short Suggestions**
+<img src="file-STtev2LrxTyFa8dosanuGH" width="100%" alt="Region Reports Bot Logic"/>
 
-- **Real-time Responses**  
-  Immediate feedback and tailored recommendations based on uploaded data.
-
----
-
-## 📊 Use Case Scenarios  
-- Upload a company's quarterly report and ask for a **summary of financial health**.  
-- Drop a `.csv` with revenue data and request **trend analysis or forecasting**.  
-- Provide a `.pdf` investor presentation and receive **highlighted insights** with context.  
+<img src="file-BnXs7xc7W6Lb3S2xpCEW29" width="100%" alt="Question Classifier Bot Flow"/>
 
 ---
 
-## 🖼️ More Screenshots
+## ✨ Key Features
 
-**AI Chat with Financial Analysis Suggestions**  
-![AI Chat UI](Снимок%20экрана%202025-04-04%20в%203.27.58%20AM.png)
-
----
-
-## 🏗️ Tech Stack  
-- **Frontend**: React.js  
-- **Backend**: FastAPI  
-- **AI/NLP**: OpenAI/GPT-like LLMs for analysis and document parsing  
-- **File Handling**: Pandas, PyMuPDF, openpyxl  
-- **Chat UI & UX**: Custom-built interface with real-time interaction
+- 📁 Upload **PDF, Excel, or CSV** reports
+- 🤖 Chat with a GPT-4o-powered **financial assistant**
+- 🧠 Modular responses based on user expertise and document type
+- 📊 Real-time **stock valuation**, **EPS**, **P/E**, **Beta**, and **regional strategy** suggestions
+- 📌 Personalized conclusions for each stakeholder
 
 ---
 
-## 🚀 Future Improvements  
-- Multi-document cross-referencing  
-- Integration with financial APIs (e.g., Yahoo Finance, Alpha Vantage)  
-- PDF-to-summary generation with charts  
-- Export analysis reports as downloadable PDFs
+## 🏗️ Tech Stack
+
+| Layer      | Tools Used                   |
+|------------|------------------------------|
+| Backend    | Python, FastAPI              |
+| AI/NLP     | OpenAI GPT-4o (via Flow)     |
+| Frontend   | React.js                     |
+| File Parsing | pandas, openpyxl, PyMuPDF  |
+| Automation | Flow-based chatbot builder   |
 
 ---
 
@@ -68,3 +61,19 @@ cd financeai-analytics
 pip install -r requirements.txt
 npm install && npm run dev
 ```
+
+---
+
+## 📊 Sample Use Cases
+
+- Upload a **Q4 Excel Report** to ask “How is profitability trending this year?”
+- Drop in an **Annual PDF Report** and ask for **stakeholder-oriented conclusions**
+- Upload a **CSV Revenue Breakdown** and request a **DuPont Analysis**
+
+---
+
+## 🧭 Future Enhancements
+
+- Dynamic file comparison across multiple years
+- Sector benchmarks integration
+- B2B dashboard and PDF report generator
